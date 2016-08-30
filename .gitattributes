@@ -1,0 +1,2 @@
+# Ensure the script will always have LF line endings on checkout.
+script.sh text eol=lf
