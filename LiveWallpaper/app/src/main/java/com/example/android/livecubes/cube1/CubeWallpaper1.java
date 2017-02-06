@@ -16,8 +16,11 @@
 
 package com.example.android.livecubes.cube1;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
@@ -27,6 +30,7 @@ import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.widget.TextView;
 
 /*
  * This animated wallpaper draws a rotating wireframe cube.
@@ -34,6 +38,8 @@ import android.view.SurfaceHolder;
 public class CubeWallpaper1 extends WallpaperService {
 
 	private final Handler mHandler = new Handler();
+	private TextView textView;
+	private StringBuilder text = new StringBuilder();
 
 	@Override
 	public void onCreate() {
@@ -75,6 +81,7 @@ public class CubeWallpaper1 extends WallpaperService {
 			paint.setStrokeWidth(2);
 			paint.setStrokeCap(Paint.Cap.ROUND);
 			paint.setStyle(Paint.Style.STROKE);
+			paint.setTextSize(40);
 
 			mStartTime = SystemClock.elapsedRealtime();
 		}
@@ -165,6 +172,23 @@ public class CubeWallpaper1 extends WallpaperService {
 		public void onVisibilityChanged(boolean visible) {
 			mVisible = visible;
 			if (visible) {
+				File file = new File(getFilesDir(), "port.txt");
+				BufferedReader reader = null;
+				try {
+					reader = new BufferedReader(new FileReader(file));
+					text = new StringBuilder();
+					text.append(reader.readLine());
+					reader.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				} finally {
+					if (reader != null) {
+						try {
+							reader.close();
+						} catch (IOException e) {
+						}
+					}
+				}
 				drawFrame();
 			} else {
 				mHandler.removeCallbacks(mDrawCube);
@@ -232,6 +256,8 @@ public class CubeWallpaper1 extends WallpaperService {
 					// draw something
 					drawCube(c);
 					drawTouchPoint(c);
+					c.drawText(text.toString(),mCenterX-50,mCenterY-200,mPaint);
+					c.drawText(text.toString(),mCenterX-50,mCenterY+200,mPaint);
 				}
 			} finally {
 				if (c != null)
