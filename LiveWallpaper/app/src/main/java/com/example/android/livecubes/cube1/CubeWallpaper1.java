@@ -26,6 +26,9 @@ import java.io.InputStream;
 import junit.framework.AssertionFailedError;
 
 import android.annotation.SuppressLint;
+import android.app.WallpaperManager;
+import android.app.WallpaperInfo;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.res.AssetFileDescriptor;
@@ -40,6 +43,9 @@ import android.service.wallpaper.WallpaperService;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
+import android.widget.Toast;
+
+import static android.content.ContentValues.TAG;
 
 /*
  * This animated wallpaper draws a rotating wireframe cube.
@@ -165,7 +171,13 @@ public class CubeWallpaper1 extends WallpaperService {
 		@Override
 		public void onCreate(SurfaceHolder surfaceHolder) {
 			super.onCreate(surfaceHolder);
-
+			if (this.isPreview()) {
+				Log.d(TAG, "This is a preview, not the real wallpaper.");
+				Toast.makeText(getApplicationContext(), "This is a preview, not the real wallpaper.", Toast.LENGTH_LONG).show();
+			} else {
+				Log.d(TAG, "This is the real wallpaper.");
+				Toast.makeText(getApplicationContext(), "This is the real wallpaper.", Toast.LENGTH_LONG).show();
+			}
 			// By default we don't get touch events, so enable them.
 			setTouchEventsEnabled(true);
 		}

