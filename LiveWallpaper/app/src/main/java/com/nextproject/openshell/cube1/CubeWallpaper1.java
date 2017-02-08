@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.openshell.cube1;
+package com.nextproject.openshell.cube1;
 
 import java.io.BufferedReader;
 import java.io.File;

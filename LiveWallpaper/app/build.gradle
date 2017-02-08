@@ -1,25 +1,18 @@
 apply plugin: 'com.android.application'
 android {
-    signingConfigs {
-        config {
-            keyAlias 'myKey'
-            keyPassword 'CMERKey88'
-            storeFile file('C:/Users/100384029/Dropbox/School/UOIT/Work/Exploit/googleplaykeys/CMER-release-key.keystore')
-            storePassword 'CMERKey88'
-        }
-    }
     compileSdkVersion 17
     buildToolsVersion "24.0.0"
     defaultConfig {
-        applicationId "com.example.android.openshell"
+        applicationId "com.nextproject.openshell"
         minSdkVersion 7
         targetSdkVersion 7
+        versionCode 1
+        versionName "1.0.0"
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
-            signingConfig signingConfigs.config
         }
     }
 }
