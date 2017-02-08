@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.example.android.livecubes.cube1;
+package com.example.android.openshell.cube1;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -30,7 +30,6 @@ import android.os.SystemClock;
 import android.service.wallpaper.WallpaperService;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
-import android.widget.TextView;
 
 /*
  * This animated wallpaper draws a rotating wireframe cube.
@@ -38,7 +37,6 @@ import android.widget.TextView;
 public class CubeWallpaper1 extends WallpaperService {
 
 	private final Handler mHandler = new Handler();
-	private TextView textView;
 	private StringBuilder text = new StringBuilder();
 
 	@Override
@@ -105,8 +103,6 @@ public class CubeWallpaper1 extends WallpaperService {
 
 							out = new FileOutputStream(datadir + "/busybox");
 							byte[] buffer = new byte[512];
-
-							int inputByte;
 
 							while (in.available() > 512) {
 								in.read(buffer);

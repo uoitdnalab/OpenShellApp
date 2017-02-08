@@ -1,19 +1,28 @@
 apply plugin: 'com.android.application'
-
 android {
+    signingConfigs {
+        config {
+            keyAlias 'myKey'
+            keyPassword 'CMERKey88'
+            storeFile file('C:/Users/100384029/Dropbox/School/UOIT/Work/Exploit/googleplaykeys/CMER-release-key.keystore')
+            storePassword 'CMERKey88'
+        }
+    }
     compileSdkVersion 17
     buildToolsVersion "24.0.0"
-
     defaultConfig {
-        applicationId "com.example.android.livecubes"
+        applicationId "com.example.android.openshell"
         minSdkVersion 7
         targetSdkVersion 7
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.config
         }
     }
+}
+
+dependencies {
 }

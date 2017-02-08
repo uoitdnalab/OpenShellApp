@@ -21,9 +21,9 @@
     <!-- General -->
     <skip />
     <!-- Application name -->
-    <string name="wallpapers">Shell Wallpaper</string>
+    <string name="wallpapers">Open Shell</string>
 
     <!-- Wallpaper showing a cube -->
-    <string name="wallpaper_cube1">Shell Cube</string>
+    <string name="wallpaper_cube1">Open Shell - Cube</string>
 
 </resources>
